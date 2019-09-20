@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ReservacionesEditDlg" widgetVar="ReservacionesEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditReservacionesTitle}">
+            <h:form id="ReservacionesEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{reservacionesController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditReservacionesLabel_idreservacion}" for="idreservacion" />
+                        <p:inputText id="idreservacion" value="#{reservacionesController.selected.idreservacion}" title="#{bundle.EditReservacionesTitle_idreservacion}" required="true" requiredMessage="#{bundle.EditReservacionesRequiredMessage_idreservacion}"/>
+                        <p:outputLabel value="#{bundle.EditReservacionesLabel_fechainicial}" for="fechainicial" />
+                        <p:calendar id="fechainicial" pattern="MM/dd/yyyy" value="#{reservacionesController.selected.fechainicial}" title="#{bundle.EditReservacionesTitle_fechainicial}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditReservacionesLabel_fechafinal}" for="fechafinal" />
+                        <p:calendar id="fechafinal" pattern="MM/dd/yyyy" value="#{reservacionesController.selected.fechafinal}" title="#{bundle.EditReservacionesTitle_fechafinal}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditReservacionesLabel_idcliente}" for="idcliente" />
+                        <p:selectOneMenu id="idcliente" value="#{reservacionesController.selected.idcliente}" required="true" requiredMessage="#{bundle.EditReservacionesRequiredMessage_idcliente}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{clientesController.itemsAvailableSelectOne}"
+                                           var="idclienteItem"
+                                           itemValue="#{idclienteItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditReservacionesLabel_idsucursal}" for="idsucursal" />
+                        <p:selectOneMenu id="idsucursal" value="#{reservacionesController.selected.idsucursal}" required="true" requiredMessage="#{bundle.EditReservacionesRequiredMessage_idsucursal}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{sucursalesController.itemsAvailableSelectOne}"
+                                           var="idsucursalItem"
+                                           itemValue="#{idsucursalItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditReservacionesLabel_idtipoevento}" for="idtipoevento" />
+                        <p:selectOneMenu id="idtipoevento" value="#{reservacionesController.selected.idtipoevento}" required="true" requiredMessage="#{bundle.EditReservacionesRequiredMessage_idtipoevento}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoeventoController.itemsAvailableSelectOne}"
+                                           var="idtipoeventoItem"
+                                           itemValue="#{idtipoeventoItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{reservacionesController.update}" value="#{bundle.Save}" update="display,:ReservacionesListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ReservacionesEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ReservacionesEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

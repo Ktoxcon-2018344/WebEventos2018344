@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CotizacionesEditDlg" widgetVar="CotizacionesEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditCotizacionesTitle}">
+            <h:form id="CotizacionesEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{cotizacionesController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditCotizacionesLabel_idcotizacion}" for="idcotizacion" />
+                        <p:inputText id="idcotizacion" value="#{cotizacionesController.selected.idcotizacion}" title="#{bundle.EditCotizacionesTitle_idcotizacion}" required="true" requiredMessage="#{bundle.EditCotizacionesRequiredMessage_idcotizacion}"/>
+                        <p:outputLabel value="#{bundle.EditCotizacionesLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{cotizacionesController.selected.fecha}" title="#{bundle.EditCotizacionesTitle_fecha}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditCotizacionesLabel_nombreafacturar}" for="nombreafacturar" />
+                        <p:inputText id="nombreafacturar" value="#{cotizacionesController.selected.nombreafacturar}" title="#{bundle.EditCotizacionesTitle_nombreafacturar}" />
+                        <p:outputLabel value="#{bundle.EditCotizacionesLabel_direccionfacturar}" for="direccionfacturar" />
+                        <p:inputText id="direccionfacturar" value="#{cotizacionesController.selected.direccionfacturar}" title="#{bundle.EditCotizacionesTitle_direccionfacturar}" />
+                        <p:outputLabel value="#{bundle.EditCotizacionesLabel_idreservacion}" for="idreservacion" />
+                        <p:selectOneMenu id="idreservacion" value="#{cotizacionesController.selected.idreservacion}" required="true" requiredMessage="#{bundle.EditCotizacionesRequiredMessage_idreservacion}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{reservacionesController.itemsAvailableSelectOne}"
+                                           var="idreservacionItem"
+                                           itemValue="#{idreservacionItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cotizacionesController.update}" value="#{bundle.Save}" update="display,:CotizacionesListForm:datalist,:growl" oncomplete="handleSubmit(args, 'CotizacionesEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="CotizacionesEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
